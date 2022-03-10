@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, gql, UserInputError } = require("apollo-server");
 const models = require("./models");
 const { generateUniqueString } = require("./utils");
 
@@ -35,7 +35,7 @@ const resolvers = {
         where: { slug: newSlug }
       });
       if (previousSlug) {
-        throw new Error("Sorry, a slug already exists for this value");
+        throw new UserInputError("Sorry, a slug already exists for this value");
       }
 
       const newLink = models.Link.create({
